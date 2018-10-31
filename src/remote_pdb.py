@@ -1,4 +1,4 @@
-from __future__ import print_function
+# py2.5 hack for Jython 2.5.1
 
 import errno
 import logging
@@ -15,7 +15,7 @@ PY3 = sys.version_info[0] == 3
 
 def cry(message, stderr=sys.__stderr__):
     logging.critical(message)
-    print(message, file=stderr)
+    print(message)  # py2 hack
     stderr.flush()
 
 
@@ -111,7 +111,7 @@ class RemotePdb(Pdb):
             frame = sys._getframe().f_back
         try:
             Pdb.set_trace(self, frame)
-        except IOError as exc:
+        except IOError, exc:  # py2 hack
             if exc.errno != errno.ECONNRESET:
                 raise
 
